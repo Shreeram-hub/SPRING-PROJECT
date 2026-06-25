@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>掲示板 | Spring Board</title>
+	<style>
+		:root {
+			--primary-color: #4a90e2;
+			--bg-color: #f8f9fa;
+			--card-bg: #ffffff;
+			--text-main: #333333;
+			--text-muted: #666666;
+			--border-radius: 12px;
+			--shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			background-color: var(--bg-color);
+			color: var(--text-main);
+			margin: 0;
+			padding: 40px 20px;
+			line-height: 1.6;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		header {
+			margin-bottom: 20px;
+			text-align: center;
+		}
+
+		h1 {
+			font-size: 2.5rem;
+			color: var(--primary-color);
+			margin: 0;
+			font-weight: 800;
+		}
+
+		.board-title {
+			border-bottom: 3px solid var(--primary-color);
+			display: inline-block;
+			padding-bottom: 5px;
+		}
+
+		.post-count {
+			text-align: center;
+			color: var(--text-muted);
+			margin-bottom: 24px;
+			font-size: 0.95rem;
+		}
+
+		.filter-container {
+			display: flex;
+			justify-content: flex-end;
+			flex-direction: column;
+			align-items: flex-end;
+			gap: 12px;
+			margin-bottom: 24px;
+		}
+
+		.toolbar input[type="text"] {
+			padding: 10px 14px;
+			border: 1px solid #e0e0e0;
+			border-radius: 8px;
+			font-size: 0.95rem;
+			outline: none;
+		}
+
+		.toolbar input[type="text"]:focus {
+			border-color: var(--primary-color);
+		}
+
+		.btn {
+			padding: 10px 20px;
+			border-radius: 8px;
+			font-size: 0.95rem;
+			font-weight: 600;
+			cursor: pointer;
+			border: 1px solid #e0e0e0;
+			background-color: white;
+			transition: all 0.2s;
+			text-decoration: none;
+		}
+
+		.btn:hover {
+			background-color: #f0f0f0;
+		}
+
+		.btn-primary {
+			background-color: var(--primary-color);
+			color: white;
+			border: none;
+		}
+
+		.btn-primary:hover {
+			background-color: #357abd;
+			transform: translateY(-1px);
+		}
+
+		.btn-danger {
+			background-color: #e74c3c;
+			color: white;
+			border: none;
+			padding: 6px 14px;
+			font-size: 0.85rem;
+		}
+
+		.btn-danger:hover {
+			background-color: #c0392b;
+		}
+
+		.posts-list {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		/* ⭐ IMPROVED POST CARD STYLE (same class name) ⭐ */
+		.post-card {
+			background-color: var(--card-bg);
+			border-radius: var(--border-radius);
+			padding: 28px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+			border: 1px solid rgba(0, 0, 0, 0.05);
+			transition: transform 0.2s, box-shadow 0.2s;
+		}
+
+		.post-card:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+		}
+
+		/* ⭐ IMPROVED CONTENT BLOCK (same class name) ⭐ */
+		.post-content {
+			font-size: 17px;
+			color: #222;
+			padding: 12px 16px;
+			background: #f7f7f7;
+			border-radius: 10px;
+			margin-bottom: 14px;
+			line-height: 1.6;
+			white-space: pre-wrap;
+			border-left: 4px solid #4a90e2;
+		}
+
+		/* ⭐ IMPROVED GENRE PILL (same class name) ⭐ */
+		.post-genre {
+			display: inline-block;
+			font-size: 14px;
+			font-weight: 600;
+			color: #4a90e2;
+			background: #eaf2fb;
+			padding: 6px 14px;
+			border-radius: 20px;
+			margin-bottom: 16px;
+		}
+
+		.post-footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 0.9rem;
+			border-top: 1px solid #eee;
+			padding-top: 15px;
+		}
+
+		.post-author {
+			font-weight: 600;
+			color: var(--primary-color);
+		}
+
+		.post-date {
+			font-family: monospace;
+			color: var(--text-muted);
+		}
+
+		.post-meta {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		.btn-edit {
+			background-color: #f0f0f0;
+			color: #333333;
+			padding: 8px 16px;
+			border-radius: 8px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.95rem;
+			transition: all 0.2s;
+			display: inline-block;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+		}
+
+		.btn-edit:hover {
+			background-color: #e0e0e0;
+			transform: translateY(-1px);
+		}
+
+		.buttonit {
+			padding: 10px 28px;
+			background-color: #4a90e2;
+			color: white;
+			border: none;
+			border-radius: 6px;
+			font-size: 14px;
+			cursor: pointer;
+			transition: background-color 0.25s ease, transform 0.15s ease;
+		}
+
+		.buttonit:hover {
+			background-color: #3a78c2;
+			transform: translateY(-2px);
+		}
+
+		.buttonit:active {
+			transform: translateY(0);
+			background-color: #3369aa;
+		}
+
+		.filter-wrap {
+			padding: 1.5rem 0;
+			max-width: 420px;
+		}
+
+		.filter-card {
+			background: #ffffff;
+			border: 1px solid #e5e7eb;
+			border-radius: 12px;
+			padding: 1.5rem;
+			box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+		}
+
+		.filter-card h2 {
+			font-size: 15px;
+			font-weight: 500;
+			color: #111;
+			margin: 0 0 1.25rem;
+		}
+
+		.form-group {
+			margin-bottom: 1.25rem;
+		}
+
+		.form-group label {
+			display: block;
+			font-size: 13px;
+			color: #6b7280;
+			margin-bottom: 6px;
+			font-weight: 500;
+		}
+
+		.form-group select {
+			width: 100%;
+			padding: 8px 12px;
+			font-size: 14px;
+			border: 1px solid #d1d5db;
+			border-radius: 8px;
+			background: #fff;
+			color: #111;
+			appearance: none;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+			background-repeat: no-repeat;
+			background-position: right 10px center;
+			cursor: pointer;
+		}
+
+		.form-group select:focus {
+			outline: none;
+			border-color: #6366f1;
+			box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+		}
+
+		button[type="submit"] {
+			width: 100%;
+			padding: 10px;
+			font-size: 14px;
+			font-weight: 500;
+			color: #374151;
+			background: #fff;
+			border: 1px solid #d1d5db;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: background 0.15s, border-color 0.15s;
+		}
+
+		button[type="submit"]:hover {
+			background: #f9fafb;
+			border-color: #9ca3af;
+		}
+
+		button[type="submit"]:active {
+			transform: scale(0.98);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<header>
+			<h1 th:text="${title}"></h1>
+		</header>
+
+		<div class="filter-container">
+			<form action="/board" method="get">
+				<div class="form-group">
+					<label for="genre">ジャンル</label>
+					<select id="genre" name="genre">
+						<th:block th:each="genre : ${genres}">
+							<option th:value="${genre.id}" th:text="${genre.name}"
+								th:selected="${selectedGenre == genre.id}"></option>
+						</th:block>
+					</select>
+				</div>
+				<button type="submit">絞り込み</button>
+			</form>
+
+			<a href="/input" class="buttonit">投稿する</a>
+		</div>  
+		
+
+
+		<br>
+
+		<main class="posts-list">
+
+			<div th:each="post : ${posts}" class="post-card" th:object = "${post}">
+			
+				<span th:if= "*{genre?.name == 'ゲーム'}" th:text="'ジャンル : ' + *{genre?.name}" style = "color : yellowgreen" class="post-genre"></span>
+				<span th:unless= "*{genre?.name == 'ゲーム'}" th:text="'ジャンル : ' + *{genre?.name}"  class="post-genre"></span>
+
+				<div th:text="'名前 : ' + *{name}" class="post-content"></div>
+
+
+				<div th:text="'本文 : ' + *{content}" class="post-content"></div>
+
+				<a th:href="@{/edit/{id}(id=*{id})}" class="btn-edit">編集</a>
+
+				<div style="display:flex; align-items:center; gap:16px;">
+					<span th:text="*{date}" class="post-date"></span>
+				</div>
+
+			</div>
+
+
+		</main>
+
+		<p th:if="${size == 0}" class="no-posts">まだ投稿はありません。</p>
+
+	</div>
+</body>
+
+</html>
