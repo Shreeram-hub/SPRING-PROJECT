@@ -1,221 +1,134 @@
-# SPRING-PROJECT
-📌 Spring Boot & Data JPA: 掲示板アプリケーション（プロフェッショナルアーキテクチャ）
-https://img.shields.io/badge/Java-17+-red?logo=java
-https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?logo=springboot
-https://img.shields.io/badge/Spring%20Data-JPA-blue?logo=hibernate
-https://img.shields.io/badge/Thymeleaf-Templates-success?logo=thymeleaf
-https://img.shields.io/badge/MySQL-Dockerized-blue?logo=mysql
-https://img.shields.io/badge/Maven-Build-orange?logo=apachemaven
+# 📌 Spring Boot & Data JPA: **掲示板アプリケーション（プロフェッショナルアーキテクチャ）**
 
-⭐ プロフェッショナル概要
-このリポジトリは、Spring Boot 3 / Spring Data JPA / Thymeleaf を用いて構築した
-エンタープライズ品質のデータベース連携型 Web アプリケーションです。
+![Java](https://img.shields.io/badge/Java-17+-red?logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?logo=springboot)
+![Spring Data JPA](https://img.shields.io/badge/Spring%20Data-JPA-blue?logo=hibernate)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Templates-success?logo=thymeleaf)
+![MySQL](https://img.shields.io/badge/MySQL-Dockerized-blue?logo=mysql)
+![Maven](https://img.shields.io/badge/Maven-Build-orange?logo=apachemaven)
 
-以下のような実務レベルのスキルを示しています：
+---
 
-拡張性の高いバックエンドアーキテクチャ設計
+## ⭐ プロフェッショナル概要
 
-JPA を用いたリレーショナルデータモデリング
+このリポジトリは、**Spring Boot 3 / Spring Data JPA / Thymeleaf** を用いて構築した  
+**エンタープライズ品質のデータベース連携型 Web 掲示板アプリケーション**です。
 
-サーバーサイドバリデーションによる堅牢な入力チェック
+**ポイント:**
 
-Thymeleaf を使った動的 UI レンダリング
+- **拡張性の高いバックエンドアーキテクチャ**
+- **JPA によるリレーショナルデータモデリング**
+- **サーバーサイドバリデーションによる堅牢な入力チェック**
+- **Thymeleaf による動的 UI レンダリング**
+- **MVC + Service + Repository のレイヤード構造**
 
-MVC + Service + Repository のクリーンなレイヤード構造
+---
 
-🚀 プロジェクト概要
-本アプリケーションは、以下の機能を備えた フルスタック掲示板システムです：
+## 🚀 プロジェクト概要
 
-正規化されたリレーショナルデータベース構造
+このプロジェクトは、以下を特徴とする **掲示板システム** です。
 
-マスタテーブルを用いた UI の動的生成
+- 正規化された **リレーショナルデータベース設計**
+- **マスタテーブル** を用いたカテゴリ管理
+- **CRUD + バリデーション** を備えた投稿機能
+- カテゴリによる **検索・絞り込み**
+- **カスタムバリデーション** によるビジネスルール適用
+- **PRG パターン** を用いた安全なフォーム送信
 
-バリデーション付き CRUD 操作
+---
 
-カテゴリによる検索・絞り込み
+## 🛠 使用技術 / スタック
 
-カスタムバリデーションロジック
+| レイヤー       | 技術                             |
+| -------------- | -------------------------------- |
+| 言語           | **Java 17+**                     |
+| フレームワーク | **Spring Boot 3**                |
+| 永続化         | **Spring Data JPA**              |
+| データベース   | **MySQL（Docker コンテナ）**     |
+| テンプレート   | **Thymeleaf**                    |
+| ビルド         | **Maven**                        |
+| DB 管理        | **Navicat Premium Lite**         |
 
-MVC + Service + Repository の明確な責務分離
+---
 
-🛠 Spring Framework で実装しているスキル
-アーキテクチャ / Spring 基盤
-Controller → Service → Repository のスケーラブルな MVC 構造
+## 🧠 Spring Framework スキル一覧
 
-DI（依存性注入）による疎結合設計
+### 🔹 アーキテクチャ / コア Spring
 
-責務分離を徹底したレイヤードアーキテクチャ
+- **Controller → Service → Repository** のレイヤードアーキテクチャ
+- **DI（依存性注入）** による疎結合設計
+- 責務分離を意識したクリーンなコード構成
 
-データ永続化（Spring Data JPA）
-@Entity, @Id, @GeneratedValue を用いた ORM
+### 🔹 データ永続化（Spring Data JPA）
 
-@ManyToOne, @JoinColumn によるリレーション構築
+- `@Entity`, `@Id`, `@GeneratedValue` による **ORM マッピング**
+- `@ManyToOne`, `@JoinColumn` による **リレーション構築**
+- `JpaRepository` を用いた **CRUD 実装**
+- メソッド名ベースの **クエリメソッド** による検索
 
-JpaRepository による CRUD 実装
+### 🔹 Web / リクエスト処理
 
-メソッド名ベースのクエリによる検索機能
+- `@GetMapping`, `@PostMapping`, `@PathVariable`, `@RequestParam`
+- `@ModelAttribute` による **フォームデータバインド**
+- **PRG（Post-Redirect-Get）パターン** の実装
 
-Web / リクエスト処理
-@GetMapping, @PostMapping, @PathVariable, @RequestParam
+### 🔹 バリデーション / セキュリティ
 
-@ModelAttribute によるフォームデータバインド
+- `@NotBlank`, `@Size` などの **JSR-303 バリデーション**
+- **カスタムアノテーション + ConstraintValidator**
+- 禁止ワードチェックなどの **ビジネスルール実装**
 
-PRG（Post-Redirect-Get）パターンの実装
+### 🔹 フロントエンド（Thymeleaf）
 
-バリデーション / セキュリティ
-@NotBlank, @Size などの JSR-303 バリデーション
+- `th:if`, `th:unless`, `th:object`, `*{...}` による **動的テンプレート**
+- `th:errors` による **エラーメッセージ表示**
+- DB と連動した **プルダウン / 絞り込み UI**
 
-カスタムアノテーション + ConstraintValidator
+---
 
-禁止ワードチェックなどのビジネスルール実装
+## 🌟 主な機能
 
-フロントエンド（Thymeleaf）
-th:if, th:unless, th:object, *{...} を用いた動的テンプレート
+| 機能                         | 説明                                                                 |
+| ---------------------------- | -------------------------------------------------------------------- |
+| **リレーショナルデータ整合性** | マスタテーブル（ジャンル）と投稿テーブルの正規化されたリレーション構造 |
+| **スマート保存処理**         | 主キーの有無で新規作成 / 更新を自動判定                             |
+| **検索・絞り込み**           | カテゴリ（ジャンル）による投稿一覧のフィルタリング                   |
+| **UI バリデーション**        | Thymeleaf + サーバーサイドバリデーションによるエラー表示             |
+| **削除戦略**                 | 物理削除を実装しつつ、論理削除の設計も考慮                          |
+| **動的 UI**                  | DB の状態と同期したプルダウン・検索条件 UI                           |
 
-th:errors によるエラーメッセージ表示
+---
 
-DB と連動したプルダウン・検索フィルタ
+## 🧩 アーキテクチャ図
 
-🌟 主な機能
-機能	説明
-リレーショナルデータ整合性	正規化されたマスタテーブル構造
-スマート保存処理	ID の有無で新規/更新を自動判定
-検索・絞り込み	カテゴリによるフィルタリング
-UI バリデーション	Thymeleaf によるリアルタイムエラー表示
-削除戦略	物理削除を実装（論理削除の知識も考慮）
-動的 UI	DB と同期したプルダウン・検索条件
+### 🏗 システム全体構成
 
-
-🧩 アーキテクチャ図
-🏗 システム全体構成
-コード
-                ┌──────────────────────────┐
-                │        Browser UI        │
-                │     (Thymeleaf Views)    │
-                └─────────────┬────────────┘
-                              │
-                              ▼
-                ┌──────────────────────────┐
-                │        Controller         │
-                │  (HTTP リクエスト処理)    │
-                └─────────────┬────────────┘
-                              │
-                              ▼
-                ┌──────────────────────────┐
-                │         Service           │
-                │   (ビジネスロジック層)    │
-                └─────────────┬────────────┘
-                              │
-                              ▼
-                ┌──────────────────────────┐
-                │       Repository          │
-                │ (Spring Data JPA 層)      │
-                └─────────────┬────────────┘
-                              │
-                              ▼
-                ┌──────────────────────────┐
-                │         Database          │
-                │          MySQL            │
-                └──────────────────────────┘
-🔄 Spring MVC リクエストフロー
-コード
-[Browser] 
-    │  HTTP Request
-    ▼
-[Controller] 
-    │  Delegates
-    ▼
-[Service] 
-    │  Calls
-    ▼
-[Repository] 
-    │  Executes
-    ▼
-[Database]
-
-<--- Response returns through the layers ---
-🗄 ER 図（データベース構造）
-コード
-┌───────────────┐         ┌──────────────────┐
-│  GenreEntity   │ 1     ∞ │   BoardEntity    │
-├───────────────┤─────────┤──────────────────┤
-│ id (PK)        │         │ id (PK)          │
-│ name           │         │ title            │
-└───────────────┘         │ content          │
-                          │ genre_id (FK)    │
-                          └──────────────────┘
-💻 技術スタック
-レイヤー	技術
-言語	Java 17+
-フレームワーク	Spring Boot 3
-永続化	Spring Data JPA
-DB	MySQL（Docker）
-テンプレート	Thymeleaf
-ビルド	Maven
-DB 管理	Navicat Premium Lite
-
-
-📂 フォルダ構成
-コード
-src/main/java/com/example/demo/
-├── controller/
-├── entity/
-├── repository/
-├── service/
-└── validation/
-
-src/main/resources/
-├── templates/
-├── static/css/
-└── application.properties
-📝 コード例
-1. リレーションマッピング
-java
-@Entity
-public class BoardEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
-    private GenreEntity genre;
-}
-2. カスタムバリデーション
-java
-public class NoForbiddenWordValidator 
-        implements ConstraintValidator<NoForbiddenWord, String> {
-
-    private final List<String> forbiddenWords = List.of("forbidden1", "forbidden2");
-
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null || value.isEmpty()) return true;
-        return forbiddenWords.stream().noneMatch(value::contains);
-    }
-}
-🏃 実行方法
-MySQL の Docker コンテナを起動
-
-application.properties を環境に合わせて設定
-
-ビルド
-
-コード
-mvn clean install
-アプリ起動
-
-コード
-./mvnw spring-boot:run
-アクセス
-http://localhost:8080/board
-
-💼 このプロジェクトの価値
-保守性：マスタテーブル + 動的 UI により変更に強い
-
-安全性：サーバーサイドバリデーションで堅牢
-
-実務品質：PRG パターン、レイヤード設計、JPA モデリング
-
-拡張性：サービス層を中心としたスケーラブルな構造
+```text
+┌──────────────────────────┐
+│        Browser UI        │
+│     (Thymeleaf Views)    │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│        Controller         │
+│  (HTTP リクエスト処理)    │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│         Service           │
+│   (ビジネスロジック層)    │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│       Repository          │
+│ (Spring Data JPA 層)      │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│         Database          │
+│          MySQL            │
+└──────────────────────────┘
